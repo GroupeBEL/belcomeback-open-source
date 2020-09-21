@@ -1,0 +1,89 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="green" style="text-align: center;">
+    <ion-icon name="close" slot="end" style="margin-right: 10px; font-size: 30px;" (click)="dismiss()">
+    </ion-icon>
+  </ion-toolbar>
+  <div class="container">
+    <img src="./assets/imgs/header.png" style="background-repeat: no-repeat; width: 100%; height: 100px;">
+    <div class="centered">
+      <h3 style="color: white;">{{'MODIFY_RESA' | translate}} <br> {{reservation?.nom}}</h3>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div>
+    <div *ngIf="parkingDispo<=0" style="margin-bottom: 30px;">
+      <div style="margin-bottom: 2px; text-align: center;">
+        {{'NO_PRK'| translate}}
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom: 30px; text-align: center; font-size: 1em;">{{'PARK' | translate}} <br>
+        {{'FREE4' | translate}}</div>
+      <div style="text-align: center;">
+        <img src="./assets/imgs/parking.png"
+          style="background-repeat: no-repeat; width: 150px; height: 75px; margin-bottom: 20px;">
+      </div>
+      <ion-grid lines="none" style="margin-bottom: 30px;">
+        <ion-row class="ion-align-self-center">
+          <ion-col class="ion-align-self-center" style="text-align: center;">
+            <ion-button [disabled]="parkingDispo<=0" (click)="choicePrk(true)" fill="outline" color="green" size="large"
+              [ngClass]="{
+            'normal-opacity': parkingShow == 0 || parkingShow == 1 ,
+            'fade-opacity': parkingShow == 2
+          }">{{'YES' | translate}}</ion-button>
+          </ion-col>
+          <ion-col class="ion-align-self-center" style="text-align: center;">
+            <ion-button (click)="choicePrk(false)" fill="outline" color="danger" size="large" [ngClass]="{
+            'normal-opacity': parkingShow == 0 || parkingShow == 2 ,
+            'fade-opacity': parkingShow == 1
+          }">{{'NO' | translate}}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+
+
+    <div *ngIf="CantineDispo<=0" style="margin-bottom: 15px; text-align: center;">
+      {{'NO_CTN' | translate}}
+    </div>
+    <div *ngIf="crns.length<=0" style="margin-bottom: 15px;">
+      <div style="margin-bottom: 2px; text-align: center;">
+        {{'NO_CRN'| translate}}
+      </div>
+    </div>
+
+    <div>
+      <div style="margin-bottom: 30px; text-align: center; font-size: 1em;">{{'CANT' | translate}}</div>
+      <div style="text-align: center;  margin-bottom: 20px;">
+        <img src="./assets/imgs/cantine.png" style="background-repeat: no-repeat; width: 80px; height: 100px;">
+      </div>
+      <form [formGroup]="form" (ngSubmit)="getFormData()">
+        <ion-item style="margin-bottom:30px;">
+          <ion-label>{{'TIME'| translate}}</ion-label>
+          <ion-select *ngIf="CantineDispo>0" color="green" formControlName="canteen" (ionChange)="changeTime()"
+            (ionCancel)="onCancel()" class="ion-text-wrap" style="max-width: 100%" [cancelText]="cancel">
+            <ion-select-option [value]="noCantine">{{'DONTCTN'| translate}}</ion-select-option>
+            <ion-select-option *ngFor="let time of crns" value="{{time.idct}}" [disabled]="time?.subs===0">
+              <span [ngStyle]="{'color': setColor(time.subs)}">{{time.creneau}} ({{time.subs}}
+                {{'FREEE'| translate}})</span>
+            </ion-select-option>
+          </ion-select>
+          <ion-select *ngIf="CantineDispo<=0" color="green" formControlName="canteen" (ionChange)="changeTime()"
+            (ionCancel)="onCancel()" class="ion-text-wrap" style="max-width: 100%" [cancelText]="cancel">
+            <ion-select-option [value]="noCantine">{{'DONTCTN'| translate}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </form>
+    </div>
+
+    <ion-button style="margin-bottom: 10px;" color="green" expand="block" (click)="updateResa()">
+      {{'UPDATE_RESA' | translate}}
+    </ion-button>
+    <ion-button color="danger" expand="block" (click)="deleteResa()" style="margin-bottom: 20px;">
+      {{'DEL_RESA' | translate}}
+    </ion-button>
+  </div>
+</ion-content>

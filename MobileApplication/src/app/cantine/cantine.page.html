@@ -1,0 +1,40 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="green" style="text-align: center;">
+  </ion-toolbar>
+  <div class="container">
+    <img src="./assets/imgs/header.png" style="background-repeat: no-repeat; width: 100%; height: 100px;">
+    <div class="centered">
+      <h3>{{'CANTEENN' | translate}} <br> {{location}}</h3>
+    </div>
+  </div>
+</ion-header>
+
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div>
+    <div style="margin-bottom: 30px; text-align: center; font-size: 1.3em;">{{'CANT' | translate}}</div>
+    <form [formGroup]="form" (ngSubmit)="getFormData()">
+      <ion-item style="margin-bottom:30px;">
+        <ion-label>{{'TIME'| translate}}</ion-label>
+        <ion-select color="green" formControlName="canteen" (ionChange)="changeTime()" class="ion-text-wrap"
+          interface="popover" style="max-width: 100%">
+          <ion-select-option [value]="noCantine">{{'DONTCTN'| translate}}</ion-select-option>
+          <ion-select-option *ngFor="let time of crns" value="{{time.id}}">{{time.creneau}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div style="margin-bottom: 10px;"
+        *ngIf="form.get('canteen').value !==0 && form.get('canteen').value !==null && subsDays.length>0">
+        <div style="margin-bottom: 2px; text-align: center;"> <b>{{'ATT_CANT'| translate}}</b></div>
+        <div *ngFor="let item of subsDays" style="margin-bottom: 2px; text-align: center;">
+          {{item?.subs}} {{'SUB'| translate}}: <b *ngIf="item?.subs === 0"  style="color: #eb445a;">{{'NO_SUB'| translate}}</b> ({{item?.day}}) 
+        </div>
+      </div>
+      <div style="text-align: center;  margin-bottom: 20px;">
+        <img src="./assets/imgs/cantine.png" style="background-repeat: no-repeat; width: 100px; height: 120px;">
+      </div>
+      <ion-button [disabled]="!form.valid" type="submit" color="green" expand="block" (click)="goToRecap()">
+        {{'NEXT' | translate}}
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

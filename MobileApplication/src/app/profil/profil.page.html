@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="green" style="text-align: center;">
+    <ion-icon *ngIf="showNavbar"  name="close" slot="end" style="margin-right: 10px; font-size: 30px;" (click)="dismiss()"></ion-icon>
+  </ion-toolbar>
+  <div class="container">
+    <img src="./assets/imgs/header.png" style="background-repeat: no-repeat; width: 100%; height: 100px;">
+    <div class="centered">
+      <h3 style="color: white;">{{'PROFILE' | translate}}</h3>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="getFormData()">
+
+    <ion-item style="margin-bottom:20px;">
+      <ion-label>{{'LOCALITY'| translate}}</ion-label>
+      <ion-select formControlName="locality" interface="popover" (ionCancel)="locCancel()" (ionChange)="changeLoc()" style="white-space: normal;max-width: 100%;">
+        <ion-select-option *ngFor="let item of localities ; let i =index;" [value]="item.id">
+          {{item?.nom}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item style="margin-bottom:30px;">
+      <ion-label>{{'LANG'| translate}}</ion-label>
+      <ion-select #flagSelect formControlName="language" interface="popover" (ionChange)="changeLang()" (ionCancel)="langCancel()">
+        <ion-select-option value="en">{{'EN'| translate}}</ion-select-option>
+        <ion-select-option value="fr">{{'FR'| translate}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item detail="false" style="margin-bottom:40px; text-align: left;" lines="none" (click)="openGtBr()">
+      <p>{{'GB_SHOW'| translate}}</p>
+      <ion-icon name="medkit" slot="end" style="margin-right: 10px; font-size: 30px;"></ion-icon>
+    </ion-item>
+
+    <ion-button expand="block" [disabled]="!form.valid" type="submit" color="green" (click)="updateProfile()"
+      style="margin-bottom:10px;">
+      {{'UPDATE_PROFILE'| translate}}
+    </ion-button>
+    <ion-button *ngIf="showNavbar" expand="block" type="submit" color="danger" (click)="logOut()">
+      {{'LOGOUT'| translate}}
+    </ion-button>
+  </form>
+</ion-content>

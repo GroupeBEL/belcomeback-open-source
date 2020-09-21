@@ -1,0 +1,69 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="green" style="text-align: center;">
+    <ion-icon name="arrow-back" slot="start" style="margin-left: 10px; font-size: 30px;" (click)="backHome()">
+    </ion-icon>
+  </ion-toolbar>
+  <div class="container">
+    <img src="./assets/imgs/header.png" style="background-repeat: no-repeat; width: 100%; height: 100px;">
+    <div class="centered">
+      <h3 style="color: white;">{{'BOOKING_FOR' | translate}} {{location}}</h3>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div>
+    <div style="text-align: center; font-size: 1.4em; margin-bottom: 30px;">
+      {{'INSC_INTRO' | translate}}
+    </div>
+
+    <div *ngIf="planning.length>0">
+      <ion-card *ngFor="let item of planning" style="margin-bottom:20px;">
+        <ion-card-header *ngIf="item?.reserved && item?.checked">
+          <ion-item>
+            <ion-icon slot="end" color="danger" name="trash" (click)="deleteReg(item?.idResa)"></ion-icon>
+            <ion-icon slot="end" color="success" name="briefcase"></ion-icon>
+          </ion-item>
+        </ion-card-header>
+        <ion-card-content (click)="item.checked">
+          <ion-item lines="none">
+            <ion-label>{{this.date.getCustomDateFormatted(language,item.day, 'dddd DD MMMM')}}</ion-label>
+            <ion-checkbox color="green" slot="end" (ionChange)="changedResa(item)" [(ngModel)]="item.checked"
+              [checked]="item?.checked" [disabled]="item?.reserved || item?.nbrFreePlaces <=0">
+            </ion-checkbox>
+          </ion-item>
+          <ion-grid>
+            <ion-row>
+              <div style="text-align: center; width: 100%;">
+                <b>{{'INSC_PLACES' | translate}}</b>
+              </div>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div style="text-align: center;">
+                  {{'COMPANY' | translate}} <br>
+                  <b [ngClass]="{'text-color-danger':item?.nbrFreePlaces <=0}">{{item?.nbrFreePlaces}}</b>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div style="text-align: center;">
+                  {{'PARKINGG' | translate}} <br>
+                  <b [ngClass]="{'text-color-danger':item?.nbrFreePlacesParking <=0}">{{item?.nbrFreePlacesParking}}</b>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div style="text-align: center;">
+                  {{'CANTEEN' | translate}} <br>
+                  <b [ngClass]="{'text-color-danger':item?.nbrFreePlacesCantine <=0}">{{item?.nbrFreePlacesCantine}}</b>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <br>
+    <ion-button color="green" expand="block" (click)="goToParking()" style="margin-bottom: 20px;">{{'NEXT_STEP' | translate}}</ion-button>
+  </div>
+
+</ion-content>

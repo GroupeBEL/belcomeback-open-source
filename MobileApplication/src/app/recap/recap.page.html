@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="green" style="text-align: center;">
+  </ion-toolbar>
+  <div class="container">
+    <img src="./assets/imgs/header.png" style="background-repeat: no-repeat; width: 100%; height: 100px;">
+    <div class="centered">
+      <h3 style="color: white;">{{'RECAP' | translate}} <br> {{location}}</h3>
+    </div>
+  </div>
+</ion-header>
+
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div>
+    <div style="text-align: center;  margin-bottom: 20px;" *ngIf="parking">
+      <b class="text-style">Parking</b> <br>
+      <div style="font-size: 1.1em; margin-bottom: 2px;" *ngFor="let item of park">
+        {{item?.places_parking}} {{'FREEE' | translate}} : ({{item?.day}})</div>
+    </div>
+    <div style="text-align: center;  margin-bottom: 20px;" *ngIf="!parking">
+      <b class="text-style">Parking</b> <br>
+      <div style="font-size: 1.1em;">{{'NO_PARKING' | translate}}</div>
+    </div>
+    <div style="text-align: center;  margin-bottom: 20px;" *ngIf="time !==''">
+      <b class="text-style">{{'CANTEEN' | translate}}</b> <br>
+      <div style="font-size: 1.1em;">{{this.utils.getCustomString(time,0,5)}}</div>
+      <div style="margin-bottom: 2px;" *ngFor="let item of cant" [ngClass]="{'text-color-danger':item?.places_canteen <=0}">
+        {{item?.places_canteen}} {{'FREEE' | translate}} : ({{item?.day}})
+      </div>
+    </div>
+    <div style="text-align: center;  margin-bottom: 20px;" *ngIf="time ===''">
+      <b class="text-style">{{'NO_CANTEEN' | translate}}</b>
+    </div>
+    <div style="text-align: center;margin-bottom: 20px;">
+      <img src="./assets/imgs/work.png" style="background-repeat: no-repeat; width: 110px; height: 150px; ">
+    </div>
+    <ion-button color="green" expand="block" (click)="goToHome(true)">{{'COMING' | translate}}</ion-button>
+    <ion-button (click)="goToHome(false)" expand="block" fill="clear" shape="round">
+      {{'NOCOMING' | translate}}
+    </ion-button>
+  </div>
+
+</ion-content>

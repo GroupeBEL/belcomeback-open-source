@@ -1,0 +1,24 @@
+php_flag display_errors On
+# MIME TYPES
+<IfModule mod_mime.c>
+	# DEFAULTS
+	AddCharset utf-8 .html .css .js .xml .json .rss .atom
+	
+	# JAVASCRIPT
+	AddType application/javascript js jsonp
+	AddType application/json json
+
+	
+	# OTHERS
+	AddType application/x-web-app-manifest+json webapp
+</IfModule>
+ RewriteEngine on
+
+# Don't rewrite files or directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]  
+RewriteCond %{REQUEST_FILENAME} -d  
+RewriteRule ^ - [L]
+
+# Rewrite everything else to index.html to allow html5 state links
+RewriteCond %{REQUEST_FILENAME} !up.php
+RewriteRule ^ index.html [L]  

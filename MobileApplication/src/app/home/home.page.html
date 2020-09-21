@@ -1,0 +1,71 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="green" style="text-align: center;">
+    <ion-icon name="person-circle" slot="end" style="margin-right: 10px; font-size: 30px;" (click)="openProfile()"></ion-icon>
+  </ion-toolbar>
+  <div class="container">
+    <img src="./assets/imgs/header.png" style="background-repeat: no-repeat; width: 100%; height: 100px;">
+    <div class="centered">
+      <h3 style="color: white;">{{name}} <br> {{'HI' | translate}} <br> {{'TO' | translate}} {{location}}</h3>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div *ngIf="Allregs.length === 0" style="text-align: center;">
+    <p style="text-align: left;" [innerHTML]="'INTRO' | translate"></p>
+    <p style="text-align: center; margin-bottom: 20px;" [innerHTML]="'INTRO_2' | translate"></p>
+    <img src="./assets/imgs/work.png"
+      style="background-repeat: no-repeat; width: 200px; height: 120px; margin-bottom: 20px;">
+    <ion-button color="green" expand="block" (click)="goToInsctiption()">{{'COMING' | translate}}</ion-button>
+  </div>
+  <div *ngIf="Allregs.length>0" style="text-align: center;">
+    <p *ngIf="Allregs.length <=0" style="text-align: center; margin-bottom: 30px;"> {{'NO_REG' | translate}}</p>
+    <img src="./assets/imgs/work.png"
+      style="background-repeat: no-repeat; width: 160px; height: 120px; margin-bottom: 20px;">
+    <div style="text-align: left; margin-bottom: 10px; margin-left: 5px;"><b>{{'BOOKING' | translate}}</b></div>
+    <ion-grid style="margin-bottom: 30px;">
+      <ion-row *ngFor="let item of Allregs" style="margin-bottom: 5px; border: 1px solid #005640;">
+        <ion-col>
+          <ion-row>
+            <ion-item lines="none">
+              <ion-icon slot="start" name="calendar-outline" color="green"></ion-icon>
+              <ion-text color="green" slot="end">{{this.date.getCustomDateFormatted(language,item?.date,'ddd DD MMMM')}}<br>({{item?.nom}})</ion-text>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <div *ngIf="item?.parking == 1" style="margin: auto;">Parking: {{'FREE' | translate}}</div> <br>
+            <div *ngIf="item?.parking == 0" style="margin: auto;">Parking: {{'NO_PARKING' | translate}}</div> <br>
+          </ion-row>
+          <ion-row>
+            <div *ngIf="item?.crnTime !==''" style="margin: auto;">
+              {{'CANTEEN' | translate}}: {{item?.crnTime}}
+            </div>
+            <div *ngIf="item?.crnTime ===''" style="margin: auto;">
+              {{'CANTEEN' | translate}}: {{'NO_CANTEEN' | translate}}
+            </div>
+          </ion-row>
+        </ion-col>
+        <ion-col [size]="changeIconResa(item) ? '2' : '3'" style="margin: auto;" (click)="modifyResa(item)">
+          <ion-icon *ngIf="!changeIconResa(item)" color="green" name="pencil-sharp" style="font-size: 30px;"></ion-icon>
+          <ion-icon *ngIf="changeIconResa(item)" color="green" name="pin-sharp" style="font-size: 30px;"></ion-icon>
+        </ion-col>
+        <ion-col size="2" style="margin: auto;" *ngIf="changeIconResa(item)" (click)="customModify(item)">
+          <ion-icon color="green" name="pencil-sharp" style="font-size: 30px;"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button color="green" expand="block" (click)="goToInsctiption()">{{'COMING' | translate}}</ion-button>
+  </div>
+
+  <ion-footer style="margin-top: 25px;">
+    <div style="color: black; float: right;">
+      {{'MADE'|translate}}
+      <span style="font-size:1em; color:red;">❤ </span>
+      {{'BY'|translate}}
+      <img src="./assets/imgs/dsi.png" width="20px" style="margin-left:5px;">
+    </div>
+  </ion-footer>
+</ion-content>

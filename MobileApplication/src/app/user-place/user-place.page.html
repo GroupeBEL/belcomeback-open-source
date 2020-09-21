@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="green" style="text-align: center;">
+    <ion-icon name="arrow-back" slot="start" style="margin-left: 10px; font-size: 30px;" (click)="backHome()">
+    </ion-icon>
+  </ion-toolbar>
+  <div class="container">
+    <img src="./assets/imgs/header.png" style="background-repeat: no-repeat; width: 100%; height: 100px;">
+    <div class="centered">
+      <h3 style="color: white;">{{this.date.getCustomDateFormatted(this.language,today,'dddd DD MMMM')}}</h3>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div *ngIf="places.length>0">
+    <ion-card *ngFor="let item of places">
+      <ion-card-header>
+        <div style="text-align: center;">
+          <b style="color: #005640;">{{item?.name}}</b>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <div style="text-align: center;">
+          <div style="margin-bottom: 20px;">
+            {{'PEO_IN_1' | translate}} <b>{{item?.people}}</b> {{'PEO_IN_2' | translate}}
+          </div>
+          <ion-button [disabled]="" style="display: inline-block;" color="green" expand="block"
+            (click)="changePlaceStatus(item, true)">
+            {{'ENTER' | translate}}
+          </ion-button>
+          <ion-button style="display: inline-block;" color="danger" expand="block"
+            (click)="changePlaceStatus(item, false)">
+            {{'GO_OUT' | translate}}
+          </ion-button>
+        </div>
+      </ion-card-content>
+
+    </ion-card>
+  </div>
+</ion-content>

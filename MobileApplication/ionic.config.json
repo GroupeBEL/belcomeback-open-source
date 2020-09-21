@@ -1,0 +1,8 @@
+{
+    "name": "belcomback-cordova",
+    "integrations": {
+      "cordova": {}
+    },
+    "type": "angular"
+  }
+  

@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="green" style="text-align: center;">
+  </ion-toolbar>
+  <div class="container">
+    <img src="./assets/imgs/header.png" style="background-repeat: no-repeat; width: 100%; height: 100px;">
+    <div class="centered">
+      <h3 style="color: white;"> {{'VALID' | translate}}</h3>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div>
+    <div style="text-align: center;  margin-bottom: 20px;">
+      <div *ngIf="data.parking == 1">Parking: {{'FREE' | translate}}</div>
+      <div *ngIf="data.parking == 0">Parking: {{'NO_PARKING' | translate}}</div> <br>
+      <div *ngIf="time !==''">
+        {{'CANTEEN' | translate}}: {{this.utils.getCustomString(time,0,5)}}
+      </div>
+      <div *ngIf="time ===''">
+        {{'CANTEEN' | translate}}: {{'NO_CANTEEN' | translate}}
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <img src="./assets/imgs/approved.png"
+        style="background-repeat: no-repeat; width: 130px; height: 130px; margin-bottom: 20px;"></div>
+    <div style="text-align: center; margin-bottom: 30px;">
+      <b>{{'CONTACT_INF' | translate}}:<br></b> {{contactInf}}<br>
+      <b>{{'CONTACT_SER' | translate}}:<br></b> {{contactSg}}
+    </div>
+    <ion-grid lines="none">
+      <ion-row>
+        <ion-col size="4" style="text-align: center;">
+          <ion-button (click)="choiceFinal(true)" color="green" size="default">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col style="text-align: center;">
+          <ion-button (click)="choiceFinal(false)" color="grey" size="default">
+            <ion-icon name="medkit" slot="start" style="margin-right: 5px;"></ion-icon>{{'GESTURE' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>
